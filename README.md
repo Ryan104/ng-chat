@@ -1,27 +1,31 @@
-# NgChat
+# Angular/SocketIO Chat Example
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
+## Install
+Server:
+```
+cd ng-chat/chat-db
+npm install
+npm start
+```
+Client:
+```
+cd ng-chat
+npm install
+ng serve -o
+```
 
-## Development server
+## About
+This is a very basic chat demo following the examples [here](https://socket.io/) and [here](http://www.syntaxsuccess.com/viewarticle/socket.io-with-rxjs-in-angular-2.0).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+The server does nothing more than open a socket that can recieve a message and emit the message. It does not save messages or user data.
 
-## Code scaffolding
+The Angular client has a component with a form to write and submit messages. Messages can be emited to the server.
+A service is used to create an observable that publishes when the socket receives a new message. Messages are saved in a client array.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+This example allows all users connected to send and receive messages. However, a messaging feature might just have private messages between two users. This can be done like this:
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```
+io.on('connect', socket => {
+  socket.to(<socketid>).emit('hey', 'I just met you');
+}
+```
